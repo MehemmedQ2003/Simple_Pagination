@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSearchParams } from "react-router-dom";
+import Data from "../db.json";
 
-function App() {
-  const [movies, setMovies] = useState([]);
+function Pagination() {
+  const [movies, setMovies] = useState(Data.movies);
 
   useEffect(() => {
-    fetch("http://localhost:5174/movies")
+    fetch("http://localhost:5175/movies")
       .then((response) => response.json())
       .then((data) => setMovies(data))
       .catch((error) => console.error("Error fetching movies:", error));
@@ -14,7 +15,7 @@ function App() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
-  const moviesPerPage = 6;
+  const moviesPerPage = 4;
   const indefOfFirstMovie = (currentPage - 1) * moviesPerPage;
   const indefOfLastMovie = currentPage * moviesPerPage;
   const slicedMovies = movies.slice(indefOfFirstMovie, indefOfLastMovie);
@@ -53,4 +54,4 @@ function App() {
   );
 }
 
-export default App;
+export default Pagination;
